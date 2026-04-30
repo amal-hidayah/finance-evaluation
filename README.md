@@ -1,22 +1,36 @@
-Project Name
-Ruthless Ledger
+# Ruthless Ledger: AI Financial Evaluator
 
-Project Overview
-Ruthless Ledger is a brutally honest, AI-powered financial evaluation web application designed for young professionals who need a harsh reality check regarding their spending habits. Unlike traditional budgeting apps that rely on tedious manual data entry, Ruthless Ledger allows users to simply type out their financial confessions in unstructured, natural language.
+An AI-powered financial reality check built with Next.js. Unlike traditional expense trackers or simple chatbots, Ruthless Ledger utilizes Generative AI as a core data-parsing engine to extract unstructured financial confessions, visualize them dynamically, and deliver a brutally honest financial evaluation.
 
-The core of the application utilizes Generative AI to parse this chaotic input, extracting concrete data points (income, categorized expenses) and transforming them into a structured JSON format. This structured data dynamically powers the frontend visualizations, including interactive pie charts and financial summaries. Beyond data extraction, the AI takes on the persona of "Ms. Ledger," a ruthless financial auditor. It evaluates the user's financial health by generating a "Savage Score," calculating the long-term "Opportunity Cost" of their worst expenses, and estimating their "Survival Rate" in days. The result is a highly engaging, gamified financial tool that forces users to confront the reality of their financial decisions through sharp, persona-driven feedback.
+## 🚀 Key Features
 
-Frontend Framework
-Next.js (App Router), React, Recharts.
+* **AI-Driven Data Extraction:** The AI processes chaotic, natural language inputs and converts them into structured JSON data (Income, Expenses, Categories).
+* **Dynamic Visualization:** Extracted data is instantly rendered into interactive pie charts using `recharts`.
+* **The "Savage" Agent:** Introduces a distinct AI persona ("Ms. Ledger") providing unfiltered financial roasting, an opportunity cost breakdown, and a realistic 30-day survival plan.
+* **Modern & Sleek UI:** Built with a dark-mode first approach, glassmorphism elements, and responsive design for a premium consulting firm aesthetic.
 
-AI Model / API Used
-Google Gemini API.
+## 💻 Tech Stack
 
-How AI is Integrated
-AI is strictly utilized as the core data-processing engine, not a bolt-on chatbot. When a user submits an unstructured financial narrative, the Next.js Serverless backend sends a precise system prompt to the Gemini API. The AI acts as a data parser, extracting numerical values, categorizing expenses, and outputting a strictly formatted JSON object. The React frontend then intercepts this JSON to dynamically render UI components, generate financial charts, and display the AI's calculated metrics alongside its personalized financial evaluation.
+* **Frontend:** Next.js (App Router), React, CSS Modules
+* **Charts & Icons:** Recharts, Lucide React
+* **AI Integration:** Google Gemini API (via Next.js Serverless Route)
+* **Deployment:** Vercel
 
-Branding Notes
-The visual identity of Ruthless Ledger was conceptualized and developed by Kardigi to reflect the premium, intimidating aura of an elite consulting firm. The color palette relies on a sleek dark mode accented with sharp reds (symbolizing financial danger) and muted greens. The central character, "Ms. Ledger," is visually represented as a strict corporate auditor, reinforcing the application's narrative. The layout utilizes clean typography and subtle UI borders to ensure the product feels like a high-end, functional financial tool.
+## 🛠️ How to Run Locally
 
-What Makes It Unique
-The unique value proposition lies in replacing the friction of manual spreadsheet data entry with an engaging, narrative-driven AI extraction process. By gamifying financial failure through custom metrics like the "Savage Score" and "Opportunity Cost," it transforms mundane budgeting into a highly impactful reality check. It proves that AI can be leveraged to engineer behavioral change through tough love rather than passive assistance.
+1. Clone this repository:
+   ```bash
+   git clone [https://github.com/amal-hidayah/finance-evaluation.git](https://github.com/amal-hidayah/finance-evaluation.git)
+Install dependencies:
+
+Bash
+npm install
+Set up environment variables:
+Create a .env.local file in the root directory and add your Google Gemini API Key:
+
+Cuplikan kode
+   GEMINI_API_KEY=your_api_key_here
+Run the development server:
+
+Bash
+npm run dev
