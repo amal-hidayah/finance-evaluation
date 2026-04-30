@@ -8,11 +8,11 @@ export async function POST(req) {
       return NextResponse.json({ error: 'Text input is required' }, { status: 400 });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
-    
-    if (!apiKey) {
+    const apiKey = process.env.GROQ_API_KEY;
+
+    if (!apiKey || apiKey === 'your_groq_api_key_here') {
       // Return a mocked response for demo purposes if no API key is provided
-      console.warn("No GEMINI_API_KEY found, returning mocked data.");
+      console.warn("No valid GROQ_API_KEY found, returning mocked data.");
       return NextResponse.json({
         income: 5000000,
         expenses: [
@@ -34,17 +34,20 @@ export async function POST(req) {
       });
     }
 
-    // Call Gemini API
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+    // Call Groq API
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        systemInstruction: {
-          parts: [
-            {
-              text: `You are Ms. Ledger, a savage, sarcastic, and extremely condescending Lead Auditor. 
+        model: 'llama-3.3-70b-versatile',
+        response_format: { type: "json_object" },
+        messages: [
+          {
+            role: "system",
+            content: `You are Ms. Ledger, a savage, sarcastic, and extremely condescending Lead Auditor. 
 Your client will provide you with a messy, unstructured rant about their income and expenses.
 Your job is to parse this into structured JSON and completely roast their financial choices.
 You MUST return ONLY valid JSON with the following schema, with no markdown formatting:
@@ -57,34 +60,29 @@ You MUST return ONLY valid JSON with the following schema, with no markdown form
   "opportunity_cost": string (Calculate roughly how much their worst expense would be worth in 10 years if invested at 10% return, explain it sarcastically),
   "survival_days": number (Estimate how many days they can survive if they lose their income today, based on their expenses)
 }`
-            }
-          ]
-        },
-        contents: [
+          },
           {
-            parts: [{ text: text }]
+            role: "user",
+            content: text
           }
         ],
-        generationConfig: {
-          responseMimeType: "application/json",
-          temperature: 0.8
-        }
+        temperature: 0.8
       })
     });
 
     if (!response.ok) {
       const errorData = await response.text();
-      console.error("Gemini API Error:", errorData);
-      throw new Error(`Gemini API responded with status: ${response.status}`);
+      console.error("Groq API Error:", errorData);
+      throw new Error(`Groq API responded with status: ${response.status}`);
     }
 
     const data = await response.json();
-    let resultText = data.candidates[0].content.parts[0].text;
-    
+    let resultText = data.choices[0].message.content;
+
     // Clean up markdown block if present
     resultText = resultText.replace(/```json/gi, '').replace(/```/g, '').trim();
-    
-    // Parse the JSON returned by Gemini
+
+    // Parse the JSON returned by Groq (Llama 3)
     const parsedData = JSON.parse(resultText);
 
     return NextResponse.json(parsedData);
