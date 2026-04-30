@@ -4,33 +4,24 @@ An AI-powered financial reality check built with Next.js. Unlike traditional exp
 
 ## 🚀 Key Features
 
-* **AI-Driven Data Extraction:** The AI processes chaotic, natural language inputs and converts them into structured JSON data (Income, Expenses, Categories).
+* **AI-Driven Data Extraction:** The AI processes chaotic, natural language inputs and converts them into structured JSON data (Income, Expenses, Categories) in real-time.
 * **Dynamic Visualization:** Extracted data is instantly rendered into interactive pie charts using `recharts`.
 * **The "Savage" Agent:** Introduces a distinct AI persona ("Ms. Ledger") providing unfiltered financial roasting, an opportunity cost breakdown, and a realistic 30-day survival plan.
-* **Modern & Sleek UI:** Built with a dark-mode first approach, glassmorphism elements, and responsive design for a premium consulting firm aesthetic.
+* **Modern & Sleek UI:** Built with a dark-mode first approach, smooth loading states, and responsive design for a premium, intimidating corporate aesthetic.
 
 ## 💻 Tech Stack
 
-* **Frontend:** Next.js (App Router), React, CSS Modules
+* **Frontend:** Next.js (App Router), React, CSS
 * **Charts & Icons:** Recharts, Lucide React
-* **AI Integration:** Google Gemini API (via Next.js Serverless Route)
+* **AI Integration:** Groq API (Llama 3 70B via Next.js Serverless Route) - *Chosen for its ultra-low latency and superior JSON structuring capabilities.*
 * **Deployment:** Vercel
 
-## 🛠️ How to Run Locally
+## ⚙️ Getting Started
 
-1. Clone this repository:
-   ```bash
-   git clone [https://github.com/amal-hidayah/finance-evaluation.git](https://github.com/amal-hidayah/finance-evaluation.git)
-Install dependencies:
-
-Bash
-npm install
-Set up environment variables:
-Create a .env.local file in the root directory and add your Google Gemini API Key:
-
-Cuplikan kode
-   GEMINI_API_KEY=your_api_key_here
-Run the development server:
+To run this project locally, create a `.env.local` file in the root directory and add your Groq API key:
+```env
+GROQ_API_KEY=your_groq_api_key_here
+Then, run the development server:
 
 Bash
 npm run dev
