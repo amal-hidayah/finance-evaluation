@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import styles from './page.module.css';
-import { Flame, Brain, LineChart, CheckCircle2, ChevronRight, Activity, TrendingDown, Mic, MicOff, Download } from 'lucide-react';
+import { Brain, LineChart, CheckCircle2, ChevronRight, Activity, TrendingDown, Mic, MicOff, Download, Shield, BarChart3, Zap, Lock, AlertTriangle } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as RechartsTooltip, Legend } from 'recharts';
 
 const TypewriterText = ({ text, delay = 20 }) => {
@@ -31,7 +31,7 @@ export default function Home() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [loadingMessage, setLoadingMessage] = useState('Menganalisis data finansial Anda...');
+  const [loadingMessage, setLoadingMessage] = useState('Menganalisis keputusan buruk Anda…');
   const [result, setResult] = useState(null);
   const [isListening, setIsListening] = useState(false);
   const [recognition, setRecognition] = useState(null);
@@ -63,7 +63,6 @@ export default function Home() {
       link.click();
     } catch (error) {
       console.error("Failed to generate image:", error);
-      alert("Gagal mengunduh gambar. Pastikan Anda sudah menginstal library html2canvas.");
     } finally {
       if (buttons) buttons.style.display = 'flex';
       captureArea.classList.remove(styles.isCapturing);
@@ -79,11 +78,11 @@ export default function Home() {
   };
 
   const loadingMessages = [
-    "Membaca alasan klise Anda",
-    "Menghitung berapa banyak uang yang Anda bakar",
-    "Menyiapkan mental untuk melihat kebodohan finansial ini",
-    "Menganalisis gaya hidup 'sultan' Anda",
-    "Mencari sisa-sisa harapan di dompet Anda"
+    "Menganalisis keputusan buruk Anda",
+    "Menjalankan audit realita finansial",
+    "Mendeteksi pola pengeluaran",
+    "Menghitung biaya peluang",
+    "Menyiapkan tamparan kenyataan"
   ];
 
   useEffect(() => {
@@ -165,7 +164,7 @@ export default function Home() {
       setResult(data);
     } catch (err) {
       console.error(err);
-      setError('Sistem kami menolak memproses data Anda. Terlalu banyak orang dengan finansial hancur yang sedang antre. Silakan coba lagi dalam beberapa menit jika Anda masih punya sisa kuota internet.');
+      setError('Sistem kami menolak memproses data Anda saat ini. Terlalu banyak orang dengan finansial hancur yang sedang antre. Silakan coba lagi dalam beberapa menit.');
     } finally {
       setIsLoading(false);
     }
@@ -178,15 +177,41 @@ export default function Home() {
 
   const getScoreColor = (scoreStr) => {
     if (!scoreStr) return '#fff';
-    // Get the first character (the grade) and convert to uppercase
     const grade = scoreStr.trim().charAt(0).toUpperCase();
     switch (grade) {
-      case 'A': return '#4ade80'; // Green
-      case 'B': return '#a3e635'; // Lime/Light Green
-      case 'C': return '#fbbf24'; // Yellow
-      case 'D': return '#f97316'; // Orange
-      case 'F': return 'var(--accent-red)'; // Red
+      case 'A': return '#4ade80';
+      case 'B': return '#a3e635';
+      case 'C': return '#fbbf24';
+      case 'D': return '#f97316';
+      case 'F': return 'var(--accent-red)';
       default: return 'var(--text-primary)';
+    }
+  };
+
+  const getRiskColor = (level) => {
+    switch (level) {
+      case 'HIGH': return '#FF3366';
+      case 'MEDIUM': return '#fbbf24';
+      case 'LOW': return '#4ade80';
+      default: return '#fff';
+    }
+  };
+
+  const getRiskWidth = (level) => {
+    switch (level) {
+      case 'HIGH': return '90%';
+      case 'MEDIUM': return '55%';
+      case 'LOW': return '25%';
+      default: return '50%';
+    }
+  };
+
+  const getRiskLabel = (level) => {
+    switch (level) {
+      case 'HIGH': return '🔴 High Risk';
+      case 'MEDIUM': return '🟡 Medium';
+      case 'LOW': return '🟢 Stable';
+      default: return level;
     }
   };
 
@@ -197,7 +222,7 @@ export default function Home() {
         {!result && !isLoading && (
           <header className={`${styles.mainHeader} ${styles.mobileHeader} ${styles.exportHeader}`}>
             <h1 className={styles.title}>Ruthless<span className={styles.titleHighlight}>Ledger</span></h1>
-            <p className={styles.subtitle}>Ms. Ledger is ready to review your poor financial choices.</p>
+            <p className={styles.tagline}>Saya tidak menghakimi. Saya menghitung.</p>
           </header>
         )}
 
@@ -208,86 +233,109 @@ export default function Home() {
             {!result && !isLoading && (
               <header className={`${styles.mainHeader} ${styles.desktopHeader}`}>
                 <h1 className={styles.title}>Ruthless<span className={styles.titleHighlight}>Ledger</span></h1>
-                <p className={styles.subtitle}>Ms. Ledger is ready to review your poor financial choices. Submit your expenses and face the reality check.</p>
+                <p className={styles.tagline}>Saya tidak menghakimi. Saya menghitung.</p>
+                <p className={styles.subtitle}>Lacak pengeluaranmu. Hadapi polamu. Perbaiki kebiasaanmu.</p>
               </header>
             )}
 
             <main>
               {error && !isLoading && (
                 <div style={{
-                  padding: '1.5rem',
-                  backgroundColor: 'rgba(255, 51, 102, 0.1)',
-                  border: '1px solid var(--accent-red)',
-                  borderRadius: '12px',
+                  padding: '1.25rem 1.5rem',
+                  backgroundColor: 'rgba(255, 51, 102, 0.08)',
+                  border: '1px solid rgba(255, 51, 102, 0.2)',
+                  borderRadius: 'var(--radius-md)',
                   color: '#ffb3c6',
-                  marginBottom: '2rem',
+                  marginBottom: '1.5rem',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '1rem'
+                  gap: '0.75rem'
                 }}>
                   <div style={{ flexShrink: 0, display: 'flex' }}>
-                    <Flame size={32} style={{ color: 'var(--accent-red)' }} />
+                    <AlertTriangle size={24} style={{ color: 'var(--accent-red)' }} />
                   </div>
-                  <p style={{ margin: 0, fontWeight: 500, lineHeight: 1.5, fontSize: '1.05rem' }}>
+                  <p style={{ margin: 0, fontWeight: 500, lineHeight: 1.5, fontSize: '0.9rem' }}>
                     {error}
                   </p>
                 </div>
               )}
 
               {!isLoading && !result && (
-                <section className={`${styles.inputSection} glass-panel`}>
-                  <label htmlFor="finance-input" className={styles.promptLabel}>
-                    Laporkan kebobrokan finansial Anda bulan ini:
-                  </label>
-                  <textarea
-                    id="finance-input"
-                    className={styles.textarea}
-                    placeholder="Contoh: Gaji bulan ini 5 juta. Pengeluaran: bayar kos 1.5 juta, ngopi 1 juta, langganan streaming 150 ribu, hiburan 500 ribu..."
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                  />
-                  <div style={{ display: 'flex', gap: '1rem', width: '100%' }}>
-                    <button
-                      className={styles.button}
-                      onClick={handleSubmit}
-                      disabled={!input.trim() || isLoading}
-                      style={{ flex: 1 }}
-                    >
-                      <Brain size={20} />
-                      Mulai Audit
-                    </button>
+                <>
+                  <section className={`${styles.inputSection} glass-panel`}>
+                    <label htmlFor="finance-input" className={styles.promptLabel}>
+                      Masukkan pemasukan & pengeluaran bulanan Anda. Biar saya yang urus.
+                    </label>
+                    <textarea
+                      id="finance-input"
+                      className={styles.textarea}
+                      placeholder="Contoh: Gaji 8 juta. Kos 3 juta, ngopi 50rb/hari, nongkrong weekend 500rb, Netflix 150rb, pinjol 2 juta buat tiket konser..."
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                    />
+                    <div style={{ display: 'flex', gap: '0.75rem', width: '100%' }}>
+                      <button
+                        className={styles.button}
+                        onClick={handleSubmit}
+                        disabled={!input.trim() || isLoading}
+                        style={{ flex: 1 }}
+                      >
+                        <Brain size={18} />
+                        Jalankan Audit Finansial
+                      </button>
 
-                    <button
-                      className={`${styles.button} ${isListening ? 'animate-pulse' : ''}`}
-                      onClick={toggleListening}
-                      disabled={isLoading}
-                      title={isListening ? "Hentikan Perekaman" : "Gunakan Suara"}
-                      style={{
-                        flex: '0 0 auto',
-                        aspectRatio: '1 / 1',
-                        padding: '0',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        background: isListening ? 'var(--accent-red)' : 'rgba(255, 255, 255, 0.1)',
-                        color: isListening ? '#fff' : 'var(--text-primary)'
-                      }}
-                    >
-                      {isListening ? <MicOff size={24} /> : <Mic size={24} />}
-                    </button>
-                  </div>
+                      <button
+                        className={`${styles.button} ${isListening ? 'animate-pulse' : ''}`}
+                        onClick={toggleListening}
+                        disabled={isLoading}
+                        title={isListening ? "Hentikan Perekaman" : "Gunakan Suara"}
+                        style={{
+                          flex: '0 0 auto',
+                          aspectRatio: '1 / 1',
+                          padding: '0',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          background: isListening ? 'var(--accent-red)' : 'rgba(255, 255, 255, 0.06)',
+                          color: isListening ? '#fff' : 'var(--text-secondary)'
+                        }}
+                      >
+                        {isListening ? <MicOff size={20} /> : <Mic size={20} />}
+                      </button>
+                    </div>
 
-                  <div style={{ textAlign: 'center', marginTop: '0.5rem' }}>
-                    <button
-                      onClick={() => setInput("Gaji saya 8 juta sebulan. Tapi saya maksa ngekos eksklusif 3 juta biar kelihatan sukses. Tiap hari wajib beli kopi susu kekinian 50 ribu, dan weekend nongkrong habis 500 ribu. Terus kemarin khilaf pinjol 2 juta buat beli tiket konser. Sekarang sisa uang di rekening tinggal 150 ribu padahal gajian masih 2 minggu lagi.")}
-                      style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', fontSize: '0.9rem', textDecoration: 'underline', cursor: 'pointer', transition: 'color 0.2s' }}
-                      onMouseOver={(e) => e.currentTarget.style.color = 'var(--text-primary)'}
-                      onMouseOut={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
-                    >
-                      Gak berani pakai data asli? [Gunakan Data Simulasi]
-                    </button>
+                    <div style={{ textAlign: 'center' }}>
+                      <button
+                        onClick={() => setInput("Gaji saya 8 juta sebulan. Tapi saya maksa ngekos eksklusif 3 juta biar kelihatan sukses. Tiap hari wajib beli kopi susu kekinian 50 ribu, dan weekend nongkrong habis 500 ribu. Terus kemarin khilaf pinjol 2 juta buat beli tiket konser. Sekarang sisa uang di rekening tinggal 150 ribu padahal gajian masih 2 minggu lagi.")}
+                        style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '0.8rem', textDecoration: 'underline', cursor: 'pointer', transition: 'color 0.2s' }}
+                        onMouseOver={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
+                        onMouseOut={(e) => e.currentTarget.style.color = 'var(--text-muted)'}
+                      >
+                        Belum punya data? Gunakan data contoh →
+                      </button>
+                    </div>
+
+                    {/* Trust Signals — inline inside the card */}
+                    <div className={styles.trustInline}>
+                      <span className={styles.trustInlineItem}>🔍 Analisis Pengeluaran</span>
+                      <span className={styles.trustDivider}>·</span>
+                      <span className={styles.trustInlineItem}>🧠 Insight Perilaku</span>
+                      <span className={styles.trustDivider}>·</span>
+                      <span className={styles.trustInlineItem}>📊 Optimasi Anggaran</span>
+                    </div>
+                  </section>
+
+                  {/* Privacy & Social Proof */}
+                  <div className={styles.trustFooter}>
+                    <div className={styles.privacyNote}>
+                      <Lock size={12} />
+                      Data diproses real-time. Tidak ada yang disimpan.
+                    </div>
+                    <div className={styles.socialProof}>
+                      Dipercaya <span className={styles.socialProofHighlight}>1.200+</span> pengguna
+                    </div>
                   </div>
-                </section>
+                </>
               )}
 
               {isLoading && (
@@ -298,21 +346,57 @@ export default function Home() {
 
               {result && !isLoading && (
                 <div className={styles.dashboard}>
-                  {/* Savage Score Badge */}
+                  {/* Savage Score + Risk Meter */}
                   {result.savage_score && (
-                    <div className={`${styles.card} glass-panel`} style={{ padding: '1.5rem', textAlign: 'center', borderColor: getScoreColor(result.savage_score) }}>
-                      <h3 style={{ color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.9rem', marginBottom: '0.5rem' }}>Savage Score</h3>
-                      <div style={{ fontSize: '1.8rem', fontWeight: '900', color: getScoreColor(result.savage_score) }}>
+                    <div className={`${styles.card} glass-panel`} style={{ textAlign: 'center', borderColor: getScoreColor(result.savage_score) }}>
+                      <h3 style={{ color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.75rem', fontWeight: 700, marginBottom: '0.5rem' }}>Savage Score</h3>
+                      <div style={{ fontSize: '1.6rem', fontWeight: '900', color: getScoreColor(result.savage_score), letterSpacing: '-0.02em' }}>
                         {result.savage_score}
+                      </div>
+
+                      {/* Risk Meter */}
+                      {result.risk_level && (
+                        <div className={styles.riskMeterContainer}>
+                          <div className={styles.riskMeterBar}>
+                            <div
+                              className={styles.riskMeterFill}
+                              style={{
+                                width: getRiskWidth(result.risk_level),
+                                background: `linear-gradient(90deg, ${getRiskColor(result.risk_level)}88, ${getRiskColor(result.risk_level)})`
+                              }}
+                            />
+                          </div>
+                          <span className={styles.riskMeterLabel} style={{ color: getRiskColor(result.risk_level) }}>
+                            {getRiskLabel(result.risk_level)}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Insights Panel */}
+                  {result.insights && result.insights.length > 0 && (
+                    <div className={`${styles.card} glass-panel`}>
+                      <h2 className={styles.cardTitle}>
+                        <Zap size={18} />
+                        Insight Utama
+                      </h2>
+                      <div className={styles.insightsGrid}>
+                        {result.insights.map((insight, index) => (
+                          <div key={index} className={styles.insightItem}>
+                            <AlertTriangle size={16} className={styles.insightIcon} />
+                            <span>{insight}</span>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   )}
 
-                  {/* Left Column: Chart & Stats */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                  {/* Cash Flow Summary */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                     <div className={`${styles.card} glass-panel`}>
                       <h2 className={styles.cardTitle}>
-                        <Activity className={styles.planIcon} />
+                        <Activity size={18} />
                         Ringkasan Arus Kas
                       </h2>
 
@@ -347,9 +431,9 @@ export default function Home() {
                                 data={result.expenses}
                                 cx="50%"
                                 cy="50%"
-                                innerRadius={60}
-                                outerRadius={80}
-                                paddingAngle={5}
+                                innerRadius={55}
+                                outerRadius={75}
+                                paddingAngle={4}
                                 dataKey="amount"
                                 nameKey="category"
                               >
@@ -359,52 +443,76 @@ export default function Home() {
                               </Pie>
                               <RechartsTooltip
                                 formatter={(value) => formatRupiah(value)}
-                                contentStyle={{ backgroundColor: '#1a1a1f', border: '1px solid #2a2a35', borderRadius: '8px', color: '#f5f5f7' }}
+                                contentStyle={{ backgroundColor: '#141418', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', color: '#f5f5f7', fontSize: '0.85rem' }}
                                 itemStyle={{ color: '#f5f5f7' }}
                               />
-                              <Legend wrapperStyle={{ color: '#f5f5f7' }} />
+                              <Legend wrapperStyle={{ color: '#f5f5f7', fontSize: '0.8rem' }} />
                             </PieChart>
                           </ResponsiveContainer>
                         ) : (
-                          <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)', fontStyle: 'italic', textAlign: 'center', padding: '2rem' }}>
+                          <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)', fontStyle: 'italic', textAlign: 'center', padding: '2rem', fontSize: '0.9rem' }}>
                             Tidak ada data pengeluaran yang terdeteksi untuk divisualisasikan.
                           </div>
                         )}
                       </div>
+
+                      {/* Needs / Wants / Savings Bar */}
+                      {result.needs_wants_savings && (
+                        <div className={styles.nwsContainer}>
+                          <div className={styles.nwsBarTrack}>
+                            <div className={styles.nwsSegment} style={{ width: `${result.needs_wants_savings.needs}%`, background: '#00C49F' }} />
+                            <div className={styles.nwsSegment} style={{ width: `${result.needs_wants_savings.wants}%`, background: '#FF9933' }} />
+                            <div className={styles.nwsSegment} style={{ width: `${result.needs_wants_savings.savings}%`, background: '#9966FF' }} />
+                          </div>
+                          <div className={styles.nwsLegend}>
+                            <div className={styles.nwsLegendItem}>
+                              <span className={styles.nwsDot} style={{ background: '#00C49F' }} />
+                              Kebutuhan <span className={styles.nwsValue}>{result.needs_wants_savings.needs}%</span>
+                            </div>
+                            <div className={styles.nwsLegendItem}>
+                              <span className={styles.nwsDot} style={{ background: '#FF9933' }} />
+                              Keinginan <span className={styles.nwsValue}>{result.needs_wants_savings.wants}%</span>
+                            </div>
+                            <div className={styles.nwsLegendItem}>
+                              <span className={styles.nwsDot} style={{ background: '#9966FF' }} />
+                              Tabungan <span className={styles.nwsValue}>{result.needs_wants_savings.savings}%</span>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
 
-                  {/* Right Column: Opportunity Cost & Survival Plan */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-                    {result.opportunity_cost && (
-                      <div className={`${styles.card} glass-panel`} style={{ borderLeft: '4px solid #9966FF' }}>
-                        <h2 className={styles.cardTitle} style={{ color: '#9966FF' }}>
-                          <TrendingDown size={24} />
-                          The Opportunity Cost
-                        </h2>
-                        <p className={styles.roastText} style={{ borderLeft: 'none', paddingLeft: 0 }}>
-                          {result.opportunity_cost}
-                        </p>
-                      </div>
-                    )}
-
-                    <div className={`${styles.card} glass-panel ${styles.glowGold}`} style={{ height: '100%' }}>
-                      <h2 className={styles.cardTitle} style={{ color: 'var(--accent-gold)' }}>
-                        <CheckCircle2 size={24} />
-                        Rencana Anggaran Darurat (30 Hari)
+                  {/* Opportunity Cost */}
+                  {result.opportunity_cost && (
+                    <div className={`${styles.card} glass-panel`} style={{ borderLeft: '3px solid #9966FF' }}>
+                      <h2 className={styles.cardTitle} style={{ color: '#9966FF' }}>
+                        <TrendingDown size={18} />
+                        The Opportunity Cost
                       </h2>
-                      <ul className={styles.planList}>
-                        {result.plan.map((item, index) => (
-                          <li key={index} className={styles.planItem}>
-                            <ChevronRight className={styles.planIcon} size={20} />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
+                      <p className={styles.roastText} style={{ borderLeft: 'none', paddingLeft: 0 }}>
+                        {result.opportunity_cost}
+                      </p>
                     </div>
+                  )}
+
+                  {/* 30-Day Survival Plan */}
+                  <div className={`${styles.card} glass-panel ${styles.glowGold}`}>
+                    <h2 className={styles.cardTitle} style={{ color: 'var(--accent-gold)' }}>
+                      <CheckCircle2 size={18} />
+                      Rencana Anggaran Darurat (30 Hari)
+                    </h2>
+                    <ul className={styles.planList}>
+                      {result.plan.map((item, index) => (
+                        <li key={index} className={styles.planItem}>
+                          <ChevronRight className={styles.planIcon} size={18} />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
 
-                  <div id="capture-buttons" style={{ display: 'flex', gap: '1rem', width: '100%', marginTop: '2rem' }}>
+                  <div id="capture-buttons" style={{ display: 'flex', gap: '0.75rem', width: '100%', marginTop: '0.5rem' }}>
                     <button
                       className={`${styles.button} ${styles.resetButton}`}
                       onClick={() => {
@@ -413,7 +521,7 @@ export default function Home() {
                       }}
                       style={{ flex: 1, margin: 0 }}
                     >
-                      Evaluasi Ulang Data Baru
+                      Audit Ulang
                     </button>
 
                     <button
@@ -421,8 +529,8 @@ export default function Home() {
                       onClick={downloadRealityCheck}
                       style={{ flex: 1, margin: 0, background: 'var(--accent-red)', color: '#fff' }}
                     >
-                      <Download size={20} />
-                      Sebarkan Aib Ini
+                      <Download size={18} />
+                      Unduh Laporan
                     </button>
                   </div>
                 </div>
