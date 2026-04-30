@@ -395,8 +395,8 @@
 
 @media (max-width: 900px) {
   .auditLayout {
-    flex-direction: column;
-    align-items: stretch;
+    flex-direction: column-reverse; /* Puts character on top, form/dashboard below */
+    align-items: center;
     gap: 2rem;
   }
 
@@ -409,26 +409,63 @@
     text-align: center;
   }
 
+  .title {
+    font-size: 3rem; /* Scaled down for mobile */
+  }
+
   .characterPanel {
     flex: none;
     position: static;
     flex-direction: column;
+    width: 100%;
+    align-items: center;
   }
 
   .avatarLarge {
-    max-width: 200px;
+    width: 100%;
+    max-width: 300px;
   }
 
-  .speechBubble::after {
-    top: -10px;
+  /* Reset both speech bubbles on mobile to sit below the image pointing up */
+  .bubbleLoading, .bubbleResult {
+    position: relative;
+    top: auto;
+    right: auto;
+    left: auto;
+    transform: none;
+    margin-top: 1rem;
+    width: 95%;
+  }
+
+  .bubbleLoading::before, .bubbleResult::before {
+    top: -12px;
     left: 50%;
+    right: auto;
     transform: translateX(-50%);
-    border-width: 0 10px 10px 10px;
-    border-color: transparent transparent #1a1a24 transparent;
+    border-width: 0 12px 12px 12px;
+    border-color: transparent transparent var(--accent-red) transparent;
+  }
+
+  .bubbleLoading::after, .bubbleResult::after {
+    top: -11px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    border-width: 0 11px 11px 11px;
+    border-color: transparent transparent rgba(26, 26, 31, 0.95) transparent;
   }
 
   .statValue {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+  }
+
+  .summaryCards {
+    grid-template-columns: 1fr; /* Stack the three stat cards vertically on narrow screens */
+    gap: 1rem;
+  }
+
+  .inputSection {
+    padding: 1.5rem;
   }
 }
 
